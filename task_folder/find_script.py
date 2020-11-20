@@ -31,6 +31,7 @@ with open('README.md', 'w', encoding='utf-8') as readme:
                 readme.write(f'Файл прошел проверку \n\n')
             except ValidationError as er:
                 readme.write(f'**Найдена ошибка:** \n\n')
-                readme.write(f'{str(er)}\n\n')
+                # print([str(er)])
+                readme.write(f'```json \n {[str(er)]} \n``` \n\n')
             readme.write('-' * 10 + '\n')
             readme.write('\n')
