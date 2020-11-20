@@ -30,25 +30,21 @@ with open('README.md', 'w', encoding='utf-8') as readme:
             schema_data = json.loads(schema_data)
         readme.write(f'Проверка файла по схеме: *{schema}* \n')
         readme.write('-' * 10 + '\n')
-        # readme.write('\n')
         try:
             Draft7Validator.check_schema(schema_data)
         except SchemaError as er:
             readme.write(str(er))
 
         for event in list_event:
-            # file = dict
             with open(f'event\\{event}', 'r') as check_file:
                 file = check_file.read()
                 file = json.loads(file)
-            # readme.write('*' * 100 + '\n')
             readme.write(f'Проверка файла: {event} >>> ')
             try:
                 validate(instance=file, schema=schema_data)
                 readme.write(f'**Прошел проверку** :white_check_mark: \n\n')
             except ValidationError as er:
                 readme.write(f'**Найдена ошибка** :warning: \n\n')
-                # print([str(er)])
                 readme.write(f'```\n{str(er)} \n``` \n\n')
             readme.write('-' * 10 + '\n')
             readme.write('\n')
