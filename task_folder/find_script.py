@@ -1,55 +1,36 @@
-from jsonschema import validate, Draft3Validator, SchemaError
+from jsonschema import validate, Draft7Validator, SchemaError, ValidationError
 import json
 import os
 
+list_schema = os.listdir('.' + '\\schema')
+list_event = os.listdir('.' + '\\event')
 
-# # with open('schema\cmarker_created.schema', 'r') as file:
-# #      schema = file
-# # with open('event\\1eba2aa1-2acf-460d-91e6-55a8c3e3b7a3.json', 'r') as json_file:
-# #     validate(json_file, schema)
+with open('README.md', 'w', encoding='utf-8') as readme:
 
-schema = {}
-with open('schema\\workout_created.schema', 'r') as schema_file:
-    schema = json.loads(schema_file.read())
+    for schema in list_schema:
+        with open(f'schema\\{schema}', 'r') as schema_file:
+            schema_data = schema_file.read()
+            schema_data = json.loads(schema_data)
+        readme.write(f'### Проверка папки по схеме: {schema} \n')
+        readme.write('*' * 100 + '\n')
+        readme.write('\n')
+        try:
+            Draft7Validator.check_schema(schema_data)
+        except SchemaError as er:
+            readme.write(str(er))
 
-try:
-    Draft3Validator.check_schema(schema)
-except SchemaError as er:
-    print(er)
-
-file = {}
-with open('event\\c72d21cf-1152-4d8e-b649-e198149d5bbb.json', 'r') as check_file:
-    file = json.loads(check_file.read())
-
-validate(schema, file)
-
-# schema = open('schema\\workout_created.schema', 'r').read()
-# schema = json.loads(schema)
-# print(schema)
-# file_json = open('event\\3ade063d-d1b9-453f-85b4-dda7bfda4711.json', 'r').read()
-# # print(file_json)
-#
-# validate(file_json, schema)
-
-# from jsonschema import validate
-#
-# schema = {
-#     "type": "object",
-#     "properties": {
-#         "name": {
-#             "type": "string"
-#             },
-#         "age": {"type": "number",
-#                 "minimum": 18,
-#                 "maximum": 110
-#                 },
-#         "role": {
-#             "type": "string",
-#             "enum": ["admin", "user"]
-#             }
-#         }
-#     }
-#
-# message = {"name": "Vasya", "age": 15, "role": "user"}
-#
-# validate(message, schema)
+        for event in list_event:
+            # file = dict
+            with open(f'event\\{event}', 'r') as check_file:
+                file = check_file.read()
+                file = json.loads(file)
+            readme.write('*' * 100 + '\n')
+            readme.write(f'Начата проверка файла: {event} \n')
+            try:
+                validate(instance=file, schema=schema_data)
+                readme.write(f'Файл прошел проверку, ошибок по схеме "{schema}" - не найдено \n')
+            except ValidationError as er:
+                readme.write(f'Найдена ошибка по схеме {schema}: \n')
+                readme.write(str(er))
+            readme.write('-' * 100 + '\n')
+            readme.write('\n')
