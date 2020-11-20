@@ -1,4 +1,4 @@
-from jsonschema import validate, Draft4Validator, SchemaError
+from jsonschema import validate, Draft3Validator, SchemaError
 import json
 import os
 
@@ -13,15 +13,15 @@ with open('schema\\workout_created.schema', 'r') as schema_file:
     schema = json.loads(schema_file.read())
 
 try:
-    Draft4Validator.check_schema(schema)
+    Draft3Validator.check_schema(schema)
 except SchemaError as er:
     print(er)
 
 file = {}
-with open('event\\1eba2aa1-2acf-460d-91e6-55a8c3e3b7a3.json', 'r') as check_file:
+with open('event\\c72d21cf-1152-4d8e-b649-e198149d5bbb.json', 'r') as check_file:
     file = json.loads(check_file.read())
 
-validate(file, schema)
+validate(schema, file)
 
 # schema = open('schema\\workout_created.schema', 'r').read()
 # schema = json.loads(schema)
