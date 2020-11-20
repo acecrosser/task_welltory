@@ -11,8 +11,8 @@ with open('README.md', 'w', encoding='utf-8') as readme:
         with open(f'schema\\{schema}', 'r') as schema_file:
             schema_data = schema_file.read()
             schema_data = json.loads(schema_data)
-        readme.write(f'### Проверка папки по схеме: {schema} \n')
-        # readme.write('*' * 100 + '\n')
+        readme.write(f'Проверка папки по схеме: {schema} \n')
+        readme.write('*' * 10 + '\n')
         # readme.write('\n')
         try:
             Draft7Validator.check_schema(schema_data)
@@ -31,6 +31,6 @@ with open('README.md', 'w', encoding='utf-8') as readme:
                 readme.write(f'Файл прошел проверку \n\n')
             except ValidationError as er:
                 readme.write(f'Найдена ошибка: \n\n')
-                readme.write(f'`{str(er)}` \n')
+                readme.write(f'`{str(er)}` \n\n')
             readme.write('-' * 10 + '\n')
             readme.write('\n')
