@@ -28,9 +28,9 @@ with open('README.md', 'w', encoding='utf-8') as readme:
             readme.write(f'Начата проверка файла: {event} >>> ')
             try:
                 validate(instance=file, schema=schema_data)
-                readme.write(f'Файл прошел проверку \n\n')
+                readme.write(f'**Файл прошел проверку** :white_check_mark: \n\n')
             except ValidationError as er:
-                readme.write(f'**Найдена ошибка:** \n\n')
+                readme.write(f'**Найдена ошибка:** :warning: \n\n')
                 # print([str(er)])
                 readme.write(f'```\n{str(er)} \n``` \n\n')
             readme.write('-' * 10 + '\n')
