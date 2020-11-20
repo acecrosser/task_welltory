@@ -25,12 +25,12 @@ with open('README.md', 'w', encoding='utf-8') as readme:
                 file = check_file.read()
                 file = json.loads(file)
             # readme.write('*' * 100 + '\n')
-            readme.write(f'Начата проверка файла: {event} \n\n')
+            readme.write(f'Начата проверка файла: {event} >>> ')
             try:
                 validate(instance=file, schema=schema_data)
-                readme.write(f'Файл прошел проверку, ошибок по схеме "{schema}" - не найдено \n\n')
+                readme.write(f'Файл прошел проверку \n\n')
             except ValidationError as er:
-                readme.write(f'Найдена ошибка по схеме {schema}: \n\n')
-                readme.write(str(er))
-            readme.write('-' * 100 + '\n')
+                readme.write(f'Найдена ошибка: \n\n')
+                readme.write(f'`{str(er)}` \n')
+            readme.write('-' * 10 + '\n')
             readme.write('\n')
